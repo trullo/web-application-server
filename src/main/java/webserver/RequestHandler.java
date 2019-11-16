@@ -1,9 +1,6 @@
 package webserver;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 
 import org.slf4j.Logger;
@@ -19,6 +16,12 @@ public class RequestHandler extends Thread {
     }
 
     public void run() {
+        log.debug("-------------------------- info -------------------------");
+        try {
+            htmlRequestInfo();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         log.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(),
                 connection.getPort());
 
@@ -51,5 +54,21 @@ public class RequestHandler extends Thread {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
+    }
+
+    private void htmlRequestInfo() throws IOException {
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new InputStreamReader(
+                    connection.getInputStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String line = "";
+        while ((line = br.readLine()) != null) {
+            System.out.println(line);
+        }
+
     }
 }
