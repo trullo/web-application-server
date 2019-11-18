@@ -29,20 +29,21 @@ public class RequestHandler extends Thread {
             byte[] body = "Hello World".getBytes();
 
             log.debug("-------------------------- info -------------------------");
-            try {
-                getHtmlRequestInfo();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            url = "";
+//            try {
+//                getHtmlRequestInfo();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
             System.out.println(1);
-            if(url != null && !url.isEmpty()){
+//            if(url != null && !url.isEmpty()){
 //                System.out.println(1-2);
 //                body = Files.readAllBytes(new File("./webapp" + url).toPath());
-                System.out.println(new File("./webapp" + url).toPath());
-            }
-            System.out.println(2);
+//                System.out.println(new File("./webapp" + url).toPath());
+//            }
+//            System.out.println(2);
             response200Header(dos, body.length);
-            System.out.println(3);
+//            System.out.println(3);
             responseBody(dos, body);
         } catch (IOException e) {
             log.error(e.getMessage());
