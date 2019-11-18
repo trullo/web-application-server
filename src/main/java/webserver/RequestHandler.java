@@ -35,15 +35,12 @@ public class RequestHandler extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println(1);
-//            if(url != null && !url.isEmpty()){
-//                System.out.println(1-2);
-//                body = Files.readAllBytes(new File("./webapp" + url).toPath());
-//                System.out.println(new File("./webapp" + url).toPath());
-//            }
-//            System.out.println(2);
+            if(url != null && !url.isEmpty()){
+                System.out.println(1-2);
+                body = Files.readAllBytes(new File("./webapp" + url).toPath());
+                System.out.println(new File("./webapp" + url).toPath());
+            }
             response200Header(dos, body.length);
-//            System.out.println(3);
             responseBody(dos, body);
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -76,18 +73,17 @@ public class RequestHandler extends Thread {
 
         br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-        String line = br.readLine();
+        String line = "";
         int i = 1;
-        while (!"".equals(line)) {
+        while (!"".equals(line = br.readLine())) {
             if (line == null) return;
             System.out.println(i + " / " + line);
             if (i == 1) {
                 url = httpUtil.getUrl(line);
                 System.out.println(url);
             }
-            line = br.readLine();
+//            line = br.readLine();
             i++;
         }
-        System.out.println("end");
     }
 }
