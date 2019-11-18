@@ -10,6 +10,6 @@ public class HtppRequestCHSUtil {
         if (matcher.find()) {
             url = matcher.group(0);
         }
-        return url;
+        return url.trim();
     }
 }
