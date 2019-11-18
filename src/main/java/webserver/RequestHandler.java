@@ -85,7 +85,10 @@ public class RequestHandler extends Thread {
         int i = 1;
         while ((line = br.readLine()) != null) {
             System.out.println(i + " / " + line);
-            if (i == 1) url = httpUtil.getUrl(line);
+            if (i == 1) {
+                url = httpUtil.getUrl(line);
+                System.out.println(url);
+            }
             i++;
         }
     }
