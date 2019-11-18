@@ -34,12 +34,14 @@ public class RequestHandler extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            System.out.println(1);
             if(url != null && !url.isEmpty()){
+                System.out.println(1-2);
                 body = Files.readAllBytes(new File("./webapp" + url).toPath());
             }
-
+            System.out.println(2);
             response200Header(dos, body.length);
+            System.out.println(3);
             responseBody(dos, body);
         } catch (IOException e) {
             log.error(e.getMessage());
