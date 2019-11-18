@@ -74,22 +74,18 @@ public class RequestHandler extends Thread {
         HtppRequestCHSUtil httpUtil = new HtppRequestCHSUtil();
         BufferedReader br = null;
 
-        try {
-            br = new BufferedReader(new InputStreamReader(
-                    connection.getInputStream()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-        String line = "";
+        String line = br.readLine();
         int i = 1;
-        while ((line = br.readLine()) != null) {
+        while (!"".equals(line)) {
             if (line == null) return;
             System.out.println(i + " / " + line);
             if (i == 1) {
                 url = httpUtil.getUrl(line);
                 System.out.println(url);
             }
+            line = br.readLine();
             i++;
         }
         System.out.println("end");
