@@ -29,12 +29,13 @@ public class RequestHandler extends Thread {
             byte[] body = "Hello World".getBytes();
 
             log.debug("-------------------------- info -------------------------");
+
             url = "";
-            try {
-                getHtmlRequestInfo();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                getHtmlRequestInfo();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
             if(url != null && !url.isEmpty()){
                 body = Files.readAllBytes(new File("./webapp" + url).toPath());
                 System.out.println(new File("./webapp" + url).toPath());
@@ -76,10 +77,10 @@ public class RequestHandler extends Thread {
         int i = 1;
         while (!"".equals(line = br.readLine())) {
             if (line == null) return;
-            System.out.println(i + " / " + line);
+            log.debug(line);
             if (i == 1) {
                 url = httpUtil.getUrl(line);
-                System.out.println(url);
+                log.debug(url);
             }
             i++;
         }
