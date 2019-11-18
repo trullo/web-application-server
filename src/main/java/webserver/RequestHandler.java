@@ -36,8 +36,9 @@ public class RequestHandler extends Thread {
             }
             System.out.println(1);
             if(url != null && !url.isEmpty()){
-                System.out.println(1-2);
-                body = Files.readAllBytes(new File("./webapp" + url).toPath());
+//                System.out.println(1-2);
+//                body = Files.readAllBytes(new File("./webapp" + url).toPath());
+                System.out.println(new File("./webapp" + url).toPath());
             }
             System.out.println(2);
             response200Header(dos, body.length);
