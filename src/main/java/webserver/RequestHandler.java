@@ -30,11 +30,11 @@ public class RequestHandler extends Thread {
 
             log.debug("-------------------------- info -------------------------");
             url = "";
-//            try {
-//                getHtmlRequestInfo();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
+            try {
+                getHtmlRequestInfo();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             System.out.println(1);
 //            if(url != null && !url.isEmpty()){
 //                System.out.println(1-2);
