@@ -36,7 +36,6 @@ public class RequestHandler extends Thread {
                 e.printStackTrace();
             }
             if(url != null && !url.isEmpty()){
-                System.out.println(1-2);
                 body = Files.readAllBytes(new File("./webapp" + url).toPath());
                 System.out.println(new File("./webapp" + url).toPath());
             }
@@ -82,7 +81,6 @@ public class RequestHandler extends Thread {
                 url = httpUtil.getUrl(line);
                 System.out.println(url);
             }
-//            line = br.readLine();
             i++;
         }
     }

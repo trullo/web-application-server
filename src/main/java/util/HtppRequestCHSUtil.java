@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 public class HtppRequestCHSUtil {
     public String getUrl(String line){
         String url = "";
-        Matcher matcher = Pattern.compile("/(.+).+(html)+").matcher(line);
+        Matcher matcher = Pattern.compile("/(.+).+\\s").matcher(line);
         if (matcher.find()) {
             url = matcher.group(0);
         }
