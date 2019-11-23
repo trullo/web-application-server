@@ -9,6 +9,7 @@ import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.HttpRequestUtils;
+import util.IOUtils;
 
 public class RequestHandler extends Thread {
     private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
@@ -27,35 +28,35 @@ public class RequestHandler extends Thread {
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+            int contentLength = 0;
             String line = br.readLine();
             String[] tokens = line.split(" ");
             log.debug("request line : {}", line);
-
             if (line == null) {
                 return;
             }
-
             while (!"".equals(line = br.readLine())) {
                 log.debug("header : {}", line);
+                if (line.contains("Content-Length")) {
+                    contentLength = getContentLength(line);
+                }
             }
 
             String url = tokens[1];
-            int index = url.indexOf("?");
-            String requestPath = index == -1 ? url : url.substring(0, index);
+            if ("/user/create".equals(url)) {
+                String body = IOUtils.readData(br, contentLength);
+                int index = url.indexOf("?");
+                String queryString = url.substring(index + 1);
+                Map<String, String> params = HttpRequestUtils.parseQueryString(queryString);
+                User user = new User(params.get("userId"), params.get("password"), params.get("name"), params.get("email"));
+                log.debug("User : {}", user);
 
-            if (requestPath.matches("/user/create(.*)")) {
-                String params = url.substring(index + 1);
-                Map<String, String> mapUser = HttpRequestUtils.parseQueryString(params);
-
-                User user = new User(mapUser.get("userId"), mapUser.get("password"), mapUser.get("name"), mapUser.get("email"));
-                System.out.println(user.toString());
+            } else {
+                DataOutputStream dos = new DataOutputStream(out);
+                byte[] body = Files.readAllBytes(new File("./webapp"+ url).toPath());
+                response200Header(dos, body.length);
+                responseBody(dos, body);
             }
-            // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
-            DataOutputStream dos = new DataOutputStream(out);
-            byte[] body = Files.readAllBytes(new File("./webapp" + tokens[1]).toPath());
-
-            response200Header(dos, body.length);
-            responseBody(dos, body);
         } catch (IOException e) {
             log.error(e.getMessage());
         }
@@ -79,5 +80,10 @@ public class RequestHandler extends Thread {
         } catch (IOException e) {
             log.error(e.getMessage());
         }
+    }
+
+    private int getContentLength(String line) {
+        String[] headerTokens = line.split(":");
+        return Integer.parseInt(headerTokens[1].trim());
     }
 }
