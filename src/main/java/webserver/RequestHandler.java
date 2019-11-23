@@ -45,9 +45,7 @@ public class RequestHandler extends Thread {
             String url = tokens[1];
             if ("/user/create".equals(url)) {
                 String body = IOUtils.readData(br, contentLength);
-                int index = url.indexOf("?");
-                String queryString = url.substring(index + 1);
-                Map<String, String> params = HttpRequestUtils.parseQueryString(queryString);
+                Map<String, String> params = HttpRequestUtils.parseQueryString(body);
                 User user = new User(params.get("userId"), params.get("password"), params.get("name"), params.get("email"));
                 log.debug("User : {}", user);
 
