@@ -37,12 +37,10 @@ public class RequestHandler extends Thread {
             String[] tokens = line.split(" ");
             String url = tokens[1];
             int index = url.indexOf("?");
-            index = index == -1 ? url.length() : index;
-
-            String requestPath = url.substring(0, index);
-            String params = url.substring(index + 1);
+            String requestPath = index == -1 ? url : url.substring(0, index);
 
             if (requestPath.matches("/user/create(.*)")) {
+                String params = url.substring(index + 1);
                 Map<String, String> mapUser = HttpRequestUtils.parseQueryString(params);
 
                 User user = new User(mapUser.get("userId"), mapUser.get("password"), mapUser.get("name"), mapUser.get("email"));
