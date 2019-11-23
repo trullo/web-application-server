@@ -48,6 +48,7 @@ public class RequestHandler extends Thread {
                 String body = IOUtils.readData(br, contentLength);
                 Map<String, String> params = HttpRequestUtils.parseQueryString(body);
                 User user = new User(params.get("userId"), params.get("password"), params.get("name"), params.get("email"));
+                DataBase.addUser(user);
                 log.debug("User : {}", user);
                 DataOutputStream dos = new DataOutputStream(out);
                 response302Header(dos, "/index.html");
