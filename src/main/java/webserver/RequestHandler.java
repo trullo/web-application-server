@@ -49,7 +49,7 @@ public class RequestHandler extends Thread {
                 User user = new User(params.get("userId"), params.get("password"), params.get("name"), params.get("email"));
                 log.debug("User : {}", user);
                 DataOutputStream dos = new DataOutputStream(out);
-                response302Header(dos, "index.html");
+                response302Header(dos, "/index.html");
             }
             DataOutputStream dos = new DataOutputStream(out);
             byte[] body = Files.readAllBytes(new File("./webapp"+ url).toPath());
