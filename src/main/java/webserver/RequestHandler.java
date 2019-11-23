@@ -34,10 +34,10 @@ public class RequestHandler extends Thread {
 
             String[] tokens = line.split(" ");
 
-            while (!line.equals("")) {
-                line = br.readLine();
-                log.debug("header : {}", line);
-            }
+//            while (!line.equals("")) {
+//                line = br.readLine();
+//                log.debug("header : {}", line);
+//            }
 
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
 
