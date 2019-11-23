@@ -66,7 +66,7 @@ public class RequestHandler extends Thread {
                 Map<String, String> params = HttpRequestUtils.parseQueryString(body);
                 User user = DataBase.findUserById(params.get("userId"));
                 if (user == null) {
-                    responseResource(out, "/user/login_failed.html");
+                    responseResource(out, "/user/login.html");
                     return;
                 }
 
