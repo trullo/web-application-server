@@ -3,10 +3,15 @@ package webserver;
 import java.io.*;
 import java.net.Socket;
 import java.nio.file.Files;
+import java.util.Map;
 
+import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.HtppRequestCHSUtil;
+import util.HttpRequestUtils;
+
+import javax.jws.soap.SOAPBinding;
 
 public class RequestHandler extends Thread {
     private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
@@ -33,28 +38,21 @@ public class RequestHandler extends Thread {
             }
 
             String[] tokens = line.split(" ");
+            String url = tokens[1];
+            int index = url.indexOf("?");
+            String requestPath = url.substring(0, index);
+            String params = url.substring(index + 1);
 
-//            while (!line.equals("")) {
-//                line = br.readLine();
-//                log.debug("header : {}", line);
-//            }
+            if(requestPath.matches("/user/create(.*)")) {
+                Map<String, String> mapUser = HttpRequestUtils.parseQueryString(params);
 
+                User user = new User(mapUser.get("userId"), mapUser.get("password"), mapUser.get("name"), mapUser.get("email"));
+                System.out.println(user.toString());
+            }
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
-
             DataOutputStream dos = new DataOutputStream(out);
             byte[] body = Files.readAllBytes(new File("./webapp" + tokens[1]).toPath());
 
-//            log.debug("-------------------------- info -------------------------");
-//            url = "";
-//            try {
-//                getHtmlRequestInfo();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            if(url != null && !url.isEmpty()){
-//                body = Files.readAllBytes(new File("./webapp" + url).toPath());
-//                System.out.println(new File("./webapp" + url).toPath());
-//            }
             response200Header(dos, body.length);
             responseBody(dos, body);
         } catch (IOException e) {
@@ -79,25 +77,6 @@ public class RequestHandler extends Thread {
             dos.flush();
         } catch (IOException e) {
             log.error(e.getMessage());
-        }
-    }
-
-    private void getHtmlRequestInfo() throws IOException {
-        HtppRequestCHSUtil httpUtil = new HtppRequestCHSUtil();
-        BufferedReader br = null;
-
-        br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-        String line = "";
-        int i = 1;
-        while (!"".equals(line = br.readLine())) {
-            if (line == null) return;
-            log.debug(line);
-            if (i == 1) {
-                url = httpUtil.getUrl(line);
-                log.debug(url);
-            }
-            i++;
         }
     }
 }
