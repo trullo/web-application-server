@@ -28,13 +28,17 @@ public class RequestHandler extends Thread {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
             String line = br.readLine();
+            String[] tokens = line.split(" ");
             log.debug("request line : {}", line);
 
             if (line == null) {
                 return;
             }
 
-            String[] tokens = line.split(" ");
+            while ("".equals(line = br.readLine())) {
+                log.debug("{}", br.readLine());
+            }
+
             String url = tokens[1];
             int index = url.indexOf("?");
             String requestPath = index == -1 ? url : url.substring(0, index);
