@@ -76,7 +76,7 @@ public class RequestHandler extends Thread {
                 } else {
                     responseResource(out, "/user/login_failed.html");
                 }
-            } else if("/user/list".equals(url)) {
+            } else if("/user/list".equals(url) || url.startsWith("/user/list")) {
                 if (!logined) {
                     responseResource(out, "/uesr/login.html");
                     return;
