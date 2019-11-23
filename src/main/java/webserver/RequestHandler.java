@@ -78,7 +78,7 @@ public class RequestHandler extends Thread {
                 }
             } else if("/user/list".equals(url) || url.startsWith("/user/list")) {
                 if (!logined) {
-                    responseResource(out, "/uesr/login.html");
+                    responseResource(out, "/user/login.html");
                     return;
                 }
                 Collection<User> users = DataBase.findAll();
