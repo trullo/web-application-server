@@ -36,7 +36,7 @@ public class RequestHandler extends Thread {
             }
 
             while (!"".equals(line = br.readLine())) {
-                log.debug("header : {}", br.readLine());
+                log.debug("header : {}", br);
             }
 
             String url = tokens[1];
